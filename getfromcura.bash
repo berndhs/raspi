@@ -9,11 +9,30 @@ fi
 
 echo The Curt Archive > curt
 tar cvf curt.tar curt
+echo "" > addedfiles
+HUNNERD=100
 echo going to use $SRCES as a list of input files to copy
 cat $SRCES | while read LN 
 do
-  tar --append -f curt.tar ${PREFIX}${LN} | grep -v "Removing leading"
-  echo after adding `basename $LN`
-  ls -ltrh curt.tar
+  echo ${PREFIX}${LN} >> addedfiles
+  COUNT=`wc -l addedfiles | awk '{print $1}'`
+  if [ $COUNT -ge $HUNNERD ] ; then
+    echo Adding the next $COUNT
+    tar --append -f curt.tar `cat addedfiles`
+    ls -ltrh curt.tar
+    echo "" > addedfiles
+  fi
 done
+echo The end of Curt > curt
+UNO=1
+  echo Adding the next $COUNT
+  tar --append -f curt.tar `cat addedfiles` curt
+  ls -ltrh curt.tar
+echo Compressing curt.tar ...
+gzip curt.tar
+ls -l curt.tar.gz
+if [ -f curt.tar.gz ] ; then
+  echo removing curt.tar, use compressed file
+  rm -f curt.tar
+fi
 
