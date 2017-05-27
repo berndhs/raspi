@@ -12,7 +12,7 @@ tar cvf curt.tar curt
 echo going to use $SRCES as a list of input files to copy
 cat $SRCES | while read LN 
 do
-  tar --append -f curt.tar ${PREFIX}${LN} | grep "Removing leading"
+  tar --append -f curt.tar ${PREFIX}${LN} | grep -v "Removing leading"
   echo after adding `basename $LN`
   ls -ltrh curt.tar
 done
