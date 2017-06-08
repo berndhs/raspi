@@ -25,14 +25,7 @@ do
 done
 echo The end of Curt > curt
 UNO=1
-  echo Adding the next $COUNT
-  tar --append -f curt.tar `cat addedfiles` curt
-  ls -ltrh curt.tar
-echo Compressing curt.tar ...
-gzip curt.tar
-ls -l curt.tar.gz
-if [ -f curt.tar.gz ] ; then
-  echo removing curt.tar, use compressed file
-  rm -f curt.tar
-fi
+echo Adding the next $COUNT
+tar --append -f curt.tar `cat addedfiles` curt
+ls -ltrh curt.tar
 
